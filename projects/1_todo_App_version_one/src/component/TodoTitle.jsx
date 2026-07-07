@@ -1,5 +1,9 @@
-function TodoName(){
-    return <h1>Todo React App</h1>
+function TodoName() {
+  return (
+    <div>
+      <h1>Todo App</h1>
+    </div>
+  );
 }
 
-export default TodoName
+export default TodoName;
