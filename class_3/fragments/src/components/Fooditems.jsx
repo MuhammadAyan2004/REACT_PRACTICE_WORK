@@ -7,6 +7,7 @@ function Fooditems(props) {
       {items.map((item) => (
         <Items key={item} foodItem={item}></Items>
       ))}
+      <p><strong>thank you for your ordering</strong></p>
     </>
   );
 }
