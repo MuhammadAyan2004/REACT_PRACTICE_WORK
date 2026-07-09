@@ -1,0 +1,17 @@
+.main {
+  width: min(90%, 150vh);
+  margin-block-start: 20px;
+  padding: 20px;
+  box-shadow: inset -2px -2px 10px black;
+}
+
+input {
+  width: 100%;
+}
+.text {
+  text-align: left;
+  margin-block: 5px;
+}
+.button {
+  min-width: 80px;
+}
