@@ -2,7 +2,7 @@ function Items (props) {
     
     return (
       <>
-        <li className="list-group-item">{props.foodItem}</li>
+        <li className="list-group-item">hello</li>
       </>
     );
 }
