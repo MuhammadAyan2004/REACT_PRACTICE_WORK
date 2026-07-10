@@ -1,0 +1,12 @@
+.display {
+    width: 100%;
+    font-size: 20px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    box-shadow: inset -2px -2px 5px rgb(82, 82, 82),
+    inset 2px 2px 5px rgb(129, 129, 129)
+    ;
+    padding: 10px;
+    margin-block: 10px;
+}
