@@ -3,17 +3,41 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Fooditems from "./components/Fooditems";
 import ErrorMsg from "./components/ErrorMsg";
 import Container from "./components/Container";
+import FoodInput from "./components/FoodInput";
+import { useState } from "react";
 
 function App() {
-  // let foodItems = [];
-  let foodItems = [
-    "Banana",
-    "Salmon",
-    "Mutton",
-    "Chicken Breast",
-    "Milk",
-    "Green vegetables",
-  ];
+  // use state method
+  // let [initialTextValue , setValue] = useState("Food Item Entered by the user");
+
+  let [foodItems , setFoodItem] = useState([])
+
+  // event handling 
+  const onKeyDown = (e) => {
+    if (e.key == 'Enter'){
+      let newFoodItem = e.target.value;
+      let updatedFoodArray = [newFoodItem , ...foodItems]
+      setFoodItem(updatedFoodArray)
+      e.target.value = '';
+    }
+    // setValue(e.target.value)
+  };
+
+  return (
+    <>
+      <Container>
+        <h1>Healthy Foods</h1>
+        <ul className="list-group">
+          <FoodInput handleOnKeyDown={onKeyDown}></FoodInput>
+          <ErrorMsg items={foodItems}></ErrorMsg>
+          <Fooditems items={foodItems}></Fooditems>
+        </ul>
+      </Container>
+    </>
+  );
+}
+
+export default App;
 
   // conditional statement
   // if(foodItems.length === 0 ){
@@ -24,25 +48,6 @@ function App() {
   //   foodItems.length === 0 ? (
   //     <h1>There is no foods items to be displayed</h1>
   //   ) : null;
-
-  return (
-    <>
-      <Container>
-        <h1>Healthy Foods</h1>
-        <ul className="list-group">
-          <ErrorMsg items={foodItems}></ErrorMsg>
-          <Fooditems items={foodItems}></Fooditems>
-        </ul>
-      </Container>
-      
-      <Container>
-        <p>The above foods is super delicios and healthy ans strongly recommanded to you</p>
-      </Container>
-    </>
-  );
-}
-
-export default App;
 
 // {/* <h1>Healthy Foods</h1>
 //     <ul className="list-group"> */}
