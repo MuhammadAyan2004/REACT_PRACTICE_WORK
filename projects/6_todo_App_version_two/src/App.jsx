@@ -2,46 +2,70 @@ import TodoName from "./component/TodoTitle";
 import AddTodo from "./component/addTodo";
 import TodoItems from "./component/TodoItems";
 import "./Apps.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
-  // const todoItems = [
-  //   {
-  //     name: "meeting with Tech solution company",
-  //     date: "7/7/2026",
-  //   },
-  //   {
-  //     name: "lunch with desginers",
-  //     date: "7/7/2026",
-  //   }
-  // ];
+  const [todoItems, setTodoItems] = useState(() => {
+    const data = localStorage.getItem("todo-list");
+    return data ? JSON.parse(data) : [];
+  });
+  const [todoName, setTodoName] = useState("");
+  const [date, setDate] = useState("");
+  const [editIndex, setEditIndex] = useState(null);
 
-  let [todoItems, setTodoItems] = useState([]);
-  let [todos, setTodos] = useState("");
-  let [Date, setDate] = useState("");
+  useEffect(() => {
+    localStorage.setItem("todo-list", JSON.stringify(todoItems));
+  }, [todoItems]);
 
-  const todoName = (e) => {
-    let todoInput = e.target.value;
-    setTodos(todoInput);
+  const clickToAdd = (todoName, date) => {
+    if (todoName.trim() === "" || date === "") {
+      alert("please enter values in the required field");
+      return;
+    }
+    if (editIndex !== null) {
+      const updatedTodos = [...todoItems];
+      updatedTodos[editIndex] = { name: todoName, date: date };
+      setTodoItems(updatedTodos);
+      setEditIndex(null);
+      clearInputs();
+    } else {
+      let newTodo = [...todoItems, { name: todoName, date: date }];
+      setTodoItems(newTodo);
+      clearInputs();
+    }
   };
-  const todoDate = (e) => {
-    let dateInput = e.target.value;
-    setDate(dateInput);
-  };
 
-  const clickToAdd = () => {
-    let newTodo = [...todoItems, { name: todos, date: Date }];
+  const handleDeleteButton = (index) => {
+    const newTodo = todoItems.filter((_, i) => i !== index);
     setTodoItems(newTodo);
-    setTodos('')
-    setDate('')
   };
+  const handleEditButton = (index) => {
+    setTodoName(todoItems[index].name);
+    setDate(todoItems[index].date);
+    setEditIndex(index);
+  };
+
+  function clearInputs() {
+    setTodoName("");
+    setDate("");
+  }
 
   return (
     <center>
       <div className="main">
         <TodoName />
-        <AddTodo addTodo={clickToAdd} todoName={todoName} todoDate={todoDate} />
-        <TodoItems todos={todoItems} />
+        <AddTodo
+          addTodo={clickToAdd}
+          todoName={todoName}
+          todoDate={date}
+          handleTodoName={setTodoName}
+          handleTodoDate={setDate}
+        />
+        <TodoItems
+          todos={todoItems}
+          onClickDelete={handleDeleteButton}
+          onClickEdit={handleEditButton}
+        />
       </div>
     </center>
   );
