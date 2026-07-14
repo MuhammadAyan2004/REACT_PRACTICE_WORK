@@ -1,10 +1,17 @@
 import TodoItem from "./todoitem";
 
-const TodoItems = ({ todos }) => {
+const TodoItems = ({ todos, onClickDelete, onClickEdit }) => {
   return (
     <>
-      {todos.map((items) => (
-        <TodoItem key={items.name} todoName={items.name} todoDate={items.date} />
+      {todos.map((items, index) => (
+        <TodoItem
+          key={index}
+          index={index}
+          todoName={items.name}
+          todoDate={items.date}
+          onClickDelete={onClickDelete}
+          onClickEdit={onClickEdit}
+        />
       ))}
     </>
   );
