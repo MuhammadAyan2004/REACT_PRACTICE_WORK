@@ -8,10 +8,21 @@
 input {
   width: 100%;
 }
+
 .text {
   text-align: left;
   margin-block: 5px;
+  align-items: center;
 }
+
 .button {
   min-width: 80px;
+}
+
+.btnSec{
+  display: flex;
+  gap: 10px;
+}
+.inputContainer{
+  margin-bottom: 20px;
 }
