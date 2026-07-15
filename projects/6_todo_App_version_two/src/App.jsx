@@ -2,20 +2,23 @@ import TodoName from "./component/TodoTitle";
 import AddTodo from "./component/addTodo";
 import TodoItems from "./component/TodoItems";
 import "./Apps.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
 
 function App() {
+
   const [todoItems, setTodoItems] = useState(() => {
     const data = localStorage.getItem("todo-list");
     return data ? JSON.parse(data) : [];
   });
-  const [todoName, setTodoName] = useState("");
-  const [date, setDate] = useState("");
-  const [editIndex, setEditIndex] = useState(null);
 
   useEffect(() => {
     localStorage.setItem("todo-list", JSON.stringify(todoItems));
   }, [todoItems]);
+
+  const [todoName, setTodoName] = useState("");
+  const [date, setDate] = useState("");
+  const [editIndex, setEditIndex] = useState(null);
+
 
   const clickToAdd = (todoName, date) => {
     if (todoName.trim() === "" || date === "") {
