@@ -1,12 +1,9 @@
-// import { useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 
 function AddTodo({
   addTodo,
   todoName,
   todoDate,
-  handleTodoName,
-  handleTodoDate,
 }) {
   return (
     <div className="container inputContainer">
@@ -15,12 +12,11 @@ function AddTodo({
           <input
             type="text"
             placeholder="Enter your Todo"
-            value={todoName}
-            onChange={(e) => handleTodoName(e.target.value)}
+            ref={todoName}
           />
         </div>
         <div className="col-4">
-          <input type="date" onChange={(e)=>handleTodoDate(e.target.value)} value={todoDate} />
+          <input type="date" ref={todoDate} />
         </div>
         <div className="col-2 ">
           <button
