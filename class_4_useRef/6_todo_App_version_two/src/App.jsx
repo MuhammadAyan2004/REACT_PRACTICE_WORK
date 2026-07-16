@@ -2,38 +2,40 @@ import TodoName from "./component/TodoTitle";
 import AddTodo from "./component/addTodo";
 import TodoItems from "./component/TodoItems";
 import "./Apps.css";
-import { useEffect, useState} from "react";
+import { useState, useRef, useEffect } from "react";
 
 function App() {
-
   const [todoItems, setTodoItems] = useState(() => {
     const data = localStorage.getItem("todo-list");
     return data ? JSON.parse(data) : [];
   });
-
   useEffect(() => {
     localStorage.setItem("todo-list", JSON.stringify(todoItems));
   }, [todoItems]);
 
-  const [todoName, setTodoName] = useState("");
-  const [date, setDate] = useState("");
+  let todoNameElem = useRef("");
+  let todoDateElem = useRef("");
   const [editIndex, setEditIndex] = useState(null);
 
+  const clickToAdd = (name, dueDate) => {
+    let todoName = name.current.value;
+    let date = dueDate.current.value;
 
-  const clickToAdd = (todoName, date) => {
-    if (todoName.trim() === "" || date === "") {
+    if (todoName.trim() == "" || date == "") {
       alert("please enter values in the required field");
       return;
     }
     if (editIndex !== null) {
-      const updatedTodos = [...todoItems];
-      updatedTodos[editIndex] = { name: todoName, date: date };
-      setTodoItems(updatedTodos);
+      setTodoItems((prevTodo) => {
+        const updatedTodo = [...prevTodo];
+        updatedTodo[editIndex] = { name: todoName, date: date };
+        return updatedTodo;
+      });
+
       setEditIndex(null);
       clearInputs();
     } else {
-      let newTodo = [...todoItems, { name: todoName, date: date }];
-      setTodoItems(newTodo);
+      setTodoItems((newTodo) => [...newTodo, { name: todoName, date: date }]);
       clearInputs();
     }
   };
@@ -43,14 +45,14 @@ function App() {
     setTodoItems(newTodo);
   };
   const handleEditButton = (index) => {
-    setTodoName(todoItems[index].name);
-    setDate(todoItems[index].date);
+    todoNameElem.current.value = todoItems[index].name;
+    todoDateElem.current.value = todoItems[index].date;
     setEditIndex(index);
   };
 
   function clearInputs() {
-    setTodoName("");
-    setDate("");
+    todoNameElem.current.value = "";
+    todoDateElem.current.value = "";
   }
 
   return (
@@ -59,10 +61,8 @@ function App() {
         <TodoName />
         <AddTodo
           addTodo={clickToAdd}
-          todoName={todoName}
-          todoDate={date}
-          handleTodoName={setTodoName}
-          handleTodoDate={setDate}
+          todoName={todoNameElem}
+          todoDate={todoDateElem}
         />
         <TodoItems
           todos={todoItems}
