@@ -3,8 +3,8 @@ import { IoMdAdd } from "react-icons/io";
 import { TodoItemsContext } from "../store/todoItems_context";
 
 function AddTodo() {
-  const { clickToAdd, todoNameElem, todoDateElem } =
-    useContext(TodoItemsContext);
+  const { clickToAdd, todoNameElem, todoDateElem } = useContext(TodoItemsContext);
+  
   return (
     <div className="container inputContainer">
       <div className="row text">
