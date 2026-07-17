@@ -2,14 +2,42 @@ import TodoName from "./component/TodoTitle";
 import AddTodo from "./component/addTodo";
 import TodoItems from "./component/TodoItems";
 import "./Apps.css";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useReducer } from "react";
 import { TodoItemsContext } from "./store/todoItems_context";
 
+const todoItemsReducer = (currState, action) => {
+  let newTodoItems;
+  if (action.type === "NEW_ITEM") {
+    newTodoItems = [
+      ...currState,
+      { name: action.payload.todoName, date: action.payload.date },
+    ];
+  } else if (action.type === "DELETE_ITEM") {
+    newTodoItems = currState.filter(
+      (_, index) => index !== action.payload.index,
+    );
+  } else if (action.type === "EDIT_ITEMS") {
+    newTodoItems = [...currState];
+    newTodoItems[action.payload.editIndex] = {
+      name: action.payload.todoName,
+      date: action.payload.date,
+    };
+  }
+
+  return newTodoItems;
+};
+
 function App() {
-  const [todoItems, setTodoItems] = useState(() => {
+
+  const initializer = ()=>{
     const data = localStorage.getItem("todo-list");
     return data ? JSON.parse(data) : [];
-  });
+  }
+  const [todoItems, dispatchedTodoItems] = useReducer(
+    todoItemsReducer,
+    [],
+    initializer,
+  );
   useEffect(() => {
     localStorage.setItem("todo-list", JSON.stringify(todoItems));
   }, [todoItems]);
@@ -27,24 +55,31 @@ function App() {
       return;
     }
     if (editIndex !== null) {
-      setTodoItems((prevTodo) => {
-        const updatedTodo = [...prevTodo];
-        updatedTodo[editIndex] = { name: todoName, date: date };
-        return updatedTodo;
-      });
-
+      const editTodoItems = {
+        type: "EDIT_ITEMS",
+        payload: { editIndex, todoName, date },
+      };
+      dispatchedTodoItems(editTodoItems);
       setEditIndex(null);
       clearInputs();
     } else {
-      setTodoItems((newTodo) => [...newTodo, { name: todoName, date: date }]);
+      const newTodoItem = {
+        type: "NEW_ITEM",
+        payload: { todoName, date },
+      };
+      dispatchedTodoItems(newTodoItem);
       clearInputs();
     }
   };
 
   const handleDeleteButton = (index) => {
-    const newTodo = todoItems.filter((_, i) => i !== index);
-    setTodoItems(newTodo);
+    const deleteTodoItem = {
+      type: "DELETE_ITEM",
+      payload: { index },
+    };
+    dispatchedTodoItems(deleteTodoItem);
   };
+
   const handleEditButton = (index) => {
     todoNameElem.current.value = todoItems[index].name;
     todoDateElem.current.value = todoItems[index].date;
