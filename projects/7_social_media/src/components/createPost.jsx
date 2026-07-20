@@ -1,24 +1,34 @@
 import { useContext, useRef } from "react";
 import { PostList_provider } from "../store/postList_context";
 
-const CreatePost = () => {
+const CreatePost = ({ setSelectedTab }) => {
   const { addPost } = useContext(PostList_provider);
-  let postIdElem = useRef(0)
+  let postIdElem = useRef(0);
   let postUserIdElem = useRef("");
-  let postTitleElem = useRef("")
+  let postTitleElem = useRef("");
   let postDescriptionElem = useRef("");
   let postHashtagElem = useRef("");
 
-  const submitPost = (e)=>{
-    e.preventDefault()
-    let postId = Number(postIdElem.current.value ++) 
-    let postUserId = postUserIdElem.current.value; 
-    let postTitle = postTitleElem.current.value 
-    let postDescription = postDescriptionElem.current.value; 
-    let postHashtag = postHashtagElem.current.value.split(/(\s+)/);
+  const submitPost = (e) => {
+    e.preventDefault();
 
-    addPost(postId, postTitle, postDescription, postHashtag, postUserId);
-  }
+    if(postUserIdElem.current.value == "" && postTitleElem.current.value == "" && postDescriptionElem.current.value == "" && postHashtagElem.current.value == ""){
+      return alert("fill out all the fields.")
+    }
+    
+    let postId = crypto.randomUUID();
+    let postUserId = postUserIdElem.current.value;
+    let postTitle = postTitleElem.current.value;
+    let postDescription = postDescriptionElem.current.value;
+    let postHashtag = postHashtagElem.current.value.trim().split(/\s+/);
+    
+    addPost(postId, postUserId, postTitle, postDescription, postHashtag);
+    setSelectedTab("Home")
+    postUserIdElem.current.value = ""; 
+    postTitleElem.current.value = "";
+    postDescriptionElem.current.value = "";
+    postHashtagElem.current.value = "";
+  };
   return (
     <div className="createPostArea">
       <form className="innerBox">
