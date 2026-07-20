@@ -1,19 +1,35 @@
-const Post = () => {
+import { useContext } from "react";
+import { AiOutlineLike } from "react-icons/ai";
+import { RxCross1 } from "react-icons/rx";
+import { PostList_provider } from "../store/postList_context";
+
+const Post = ({ post }) => {
+  const {deletePost} = useContext(PostList_provider)
   return (
-    <div class="card" style={{width: "18rem"}}>
-      <img src="..." class="card-img-top" alt="..." />
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">
-          Some quick example text to build on the card title and make up the
-          bulk of the card`s content.
+    <div className="card cards" style={{ width: "18rem" }}>
+      <RxCross1 className="postCross" onClick={() => deletePost(post.id)} />
+      <span>
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvvMFDtJFJLzEYY5bLQhfUwWBljfDu4l0qhnyOhkya1SOWltYgSZQ11eU&s=10"
+          className="imgDetail"
+          alt="..."
+        />{" "}
+        <strong>{post.userId}</strong>
+      </span>
+      <div className="card-body">
+        <h6 className="card-title">{post.title}</h6>
+        <p className="card-text bodyText">{post.body}</p>
+        {post.tags.map((tag) => (
+          <span key={tag} className="badge text-bg-secondary hashtag">
+            {tag}
+          </span>
+        ))}
+        <p className="postLikes">
+          <AiOutlineLike className="postLikeBtn" /> {post.reactions}
         </p>
-        <a href="#" class="btn btn-primary">
-          Go somewhere
-        </a>
       </div>
     </div>
   );
 };
 
-export default Post
+export default Post;
