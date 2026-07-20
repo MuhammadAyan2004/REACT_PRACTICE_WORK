@@ -4,7 +4,10 @@ import { RxCross1 } from "react-icons/rx";
 import { PostList_provider } from "../store/postList_context";
 
 const Post = ({ post }) => {
-  const {deletePost} = useContext(PostList_provider)
+  const {deletePost , handleLike } = useContext(PostList_provider)
+  const likedFuntion = ()=>{
+    handleLike(post.id, post.userId)
+  }
   return (
     <div className="card cards" style={{ width: "18rem" }}>
       <RxCross1 className="postCross" onClick={() => deletePost(post.id)} />
@@ -25,7 +28,8 @@ const Post = ({ post }) => {
           </span>
         ))}
         <p className="postLikes">
-          <AiOutlineLike className="postLikeBtn" /> {post.reactions}
+          <AiOutlineLike className="postLikeBtn" onClick={likedFuntion} />{" "}
+          {post.reactions > 0 ? post.reactions : "no react yet"}
         </p>
       </div>
     </div>
