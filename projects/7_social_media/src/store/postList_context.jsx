@@ -4,6 +4,7 @@ export const PostList_provider = createContext({
   postList: [],
   addPost: () => {},
   deletePost: () => {},
+  handleLike: () => {},
 });
 
 
