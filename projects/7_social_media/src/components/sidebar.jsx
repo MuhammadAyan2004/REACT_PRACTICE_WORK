@@ -34,7 +34,7 @@ const Sidebar = ({ selectedTab, setSelectedTab }) => {
               className="bi pe-none me-2"
               width="16"
               height="16"
-              aria-hidden="true"
+              aria-hidden="false"
             >
               <use xlinkHref="#home"></use>
             </svg>
