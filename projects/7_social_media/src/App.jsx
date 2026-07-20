@@ -22,7 +22,11 @@ function App() {
         </div>
         <div className="content">
           <Header></Header>
-          {selectedTab === "Home" ? <PostList /> : <CreatePost />}
+          {selectedTab === "Home" ? (
+            <PostList />
+          ) : (
+            <CreatePost setSelectedTab={setSelectedTab} />
+          )}
           <Footer />
         </div>
       </div>
