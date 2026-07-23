@@ -1,9 +1,7 @@
 import { useEffect, useReducer, useState } from "react";
 import { PostList_provider } from "./postList_context";
 
-
 const postListReducer = (currPostList, action) => {
-    
   let updatedList;
   if (action.type === "Add_post") {
     updatedList = [
@@ -14,6 +12,7 @@ const postListReducer = (currPostList, action) => {
         body: action.payload.postDescription,
         tags: action.payload.postHashtag,
         reactions: 0,
+        islike: false,
       },
       ...currPostList,
     ];
@@ -22,22 +21,17 @@ const postListReducer = (currPostList, action) => {
       (card) => card.id !== action.payload.postId,
     );
   } else if (action.type === "new_like") {
-    console.log(action.payload.initialUser);
-    if (action.payload.initialUser.includes(action.payload.userId)) {
-      updatedList = currPostList.map((post) => {
+    updatedList = currPostList.map((post) => {
+      if (post.islike) {
         return post.id === action.payload.postId
-          ? { ...post, reactions: post.reactions - 1 }
+          ? { ...post, islike: false, reactions: post.reactions - 1 }
           : post;
-      });
-      action.payload.setUser("");
-    } else {
-      updatedList = currPostList.map((post) => {
+      } else if (!post.islike) {
         return post.id === action.payload.postId
-          ? { ...post, reactions: post.reactions + 1 }
+          ? { ...post, islike: true, reactions: post.reactions + 1 }
           : post;
-      });
-      action.payload.setUser(action.payload.userId);
-    }
+      }
+    });
   }
   return updatedList;
 };
@@ -89,7 +83,7 @@ const HandlePosts = ({ children }) => {
     // console.log(postId);
     dispatchedPostList({
       type: "new_like",
-      payload: { postId, userId, initialUser ,setUser },
+      payload: { postId, userId, initialUser, setUser },
     });
   };
 
