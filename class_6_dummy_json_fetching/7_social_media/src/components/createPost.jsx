@@ -1,7 +1,7 @@
 import { useContext, useRef } from "react";
 import { PostList_provider } from "../store/postList_context";
 
-const CreatePost = ({ setSelectedTab }) => {
+const CreatePost = ({ setSelectedTab, setLoading }) => {
   const { addPost } = useContext(PostList_provider);
   let postIdElem = useRef(0);
   let postUserIdElem = useRef("");
@@ -21,13 +21,27 @@ const CreatePost = ({ setSelectedTab }) => {
     let postTitle = postTitleElem.current.value;
     let postDescription = postDescriptionElem.current.value;
     let postHashtag = postHashtagElem.current.value.trim().split(/\s+/);
-    
+
+    // show Loader
+    setLoading(true)
+
+    // add Post
     addPost(postId, postUserId, postTitle, postDescription, postHashtag);
+
+    // change Tab
     setSelectedTab("Home")
+
+    // hide loader after 1 sec
+    setTimeout(()=>{
+      setLoading(false)
+    },1000)
+
+    // clear inputs
     postUserIdElem.current.value = ""; 
     postTitleElem.current.value = "";
     postDescriptionElem.current.value = "";
     postHashtagElem.current.value = "";
+    
   };
   return (
     <div className="createPostArea">
