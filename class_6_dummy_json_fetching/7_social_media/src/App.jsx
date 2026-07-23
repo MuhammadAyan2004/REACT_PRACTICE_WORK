@@ -10,6 +10,7 @@ import HandlePosts from "./store/handlePostListProvider";
 
 function App() {
   const [selectedTab, setSelectedTab] = useState("Home");
+  const [loading, setLoading] = useState(false);
 
   return (
     <HandlePosts>
@@ -23,9 +24,12 @@ function App() {
         <div className="content">
           <Header></Header>
           {selectedTab === "Home" ? (
-            <PostList />
+            <PostList loading={loading} setLoading={setLoading} />
           ) : (
-            <CreatePost setSelectedTab={setSelectedTab} />
+            <CreatePost
+              setSelectedTab={setSelectedTab}
+              setLoading={setLoading}
+            />
           )}
           <Footer />
         </div>
