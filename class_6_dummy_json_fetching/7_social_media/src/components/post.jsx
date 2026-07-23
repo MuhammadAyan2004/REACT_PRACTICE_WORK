@@ -5,8 +5,9 @@ import { PostList_provider } from "../store/postList_context";
 
 const Post = ({ post }) => {
   const {deletePost , handleLike } = useContext(PostList_provider)
+  
   const likedFuntion = ()=>{
-    handleLike(post.id, post.userId)
+    handleLike(post.id)
   }
   return (
     <div className="card cards" style={{ width: "18rem" }}>
