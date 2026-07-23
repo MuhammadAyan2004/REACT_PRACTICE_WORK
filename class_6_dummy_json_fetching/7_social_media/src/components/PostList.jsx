@@ -1,25 +1,43 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Post from "./post";
 import { PostList_provider } from "../store/postList_context";
 import WelcomMessage from "./WelcomMessage";
+import Loader from "./loader";
 
-const PostList = () => {
+const PostList = ({ loading, setLoading }) => {
   const { postList, addInitialPosts } = useContext(PostList_provider);
 
-  const showPosts = () => {
-    fetch("https://dummyjson.com/posts")
+  // const showPosts = () => {
+  //   fetch("https://dummyjson.com/posts")
+  //     .then((res) => res.json())
+  //     .then((obj) => {
+  //       addInitialPosts(obj.posts);
+  //     });
+  // };
+
+  useEffect(() => {
+    setLoading(true);
+
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    fetch("https://dummyjson.com/posts", { signal })
       .then((res) => res.json())
       .then((obj) => {
-        console.log(obj.posts);
         addInitialPosts(obj.posts);
+        setLoading(false);
       });
-  };
+    return () => {
+      controller.abort();
+    };
+  }, []);
+
   return (
     <>
-      {postList.length === 0 && <WelcomMessage showPosts={showPosts} />}
-      {postList.map((post) => (
-        <Post key={post.id} post={post}></Post>
-      ))}
+      {loading && <Loader />}
+      {!loading && postList.length === 0 && <WelcomMessage />}
+      {!loading &&
+        postList.map((post) => <Post key={post.id} post={post}></Post>)}
     </>
   );
 };
