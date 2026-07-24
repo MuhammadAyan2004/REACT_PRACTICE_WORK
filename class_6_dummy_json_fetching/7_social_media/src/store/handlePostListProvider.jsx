@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useCallback, useEffect, useReducer } from "react";
 import { PostList_provider } from "./postList_context";
 
 const postListReducer = (currPostList, action) => {
@@ -29,29 +29,18 @@ const postListReducer = (currPostList, action) => {
     });
   } else if (action.type === "new_like") {
     updatedList = currPostList.map((post) => {
-      if (post.islike) {
-        return post.id === action.payload.postId
-          ? {
-              ...post,
-              islike: false,
-              reactions: {
-                dislikes: post.reactions.dislikes + 0,
-                likes: post.reactions.likes - 1,
-              },
-            }
-          : post;
-      } else if (!post.islike) {
-        return post.id === action.payload.postId
-          ? {
-              ...post,
-              islike: true,
-              reactions: {
-                dislikes: post.reactions.dislikes + 0,
-                likes: post.reactions.likes + 1,
-              },
-            }
-          : post;
+      if (post.id !== action.payload.postId) {
+        return post;
       }
+      const isLiked = !post.islike
+      return {
+        ...post,
+        islike: isLiked,
+        reactions: {
+          ...post.reactions,
+          likes: post.reactions.likes + (isLiked ? 1 : -1),
+        },
+      };
     });
   }
   return updatedList;
@@ -65,7 +54,7 @@ const HandlePosts = ({ children }) => {
   const [postList, dispatchedPostList] = useReducer(
     postListReducer,
     [],
-    fetchData
+    fetchData,
   );
 
   useEffect(() => {
@@ -90,27 +79,29 @@ const HandlePosts = ({ children }) => {
       },
     });
   };
-  const deletePost = (postId) => {
+
+  // through usecallback
+  const deletePost = useCallback((postId) => {
     const deletedPost = {
       type: "delete_post",
       payload: { postId },
     };
     dispatchedPostList(deletedPost);
-  };
+  }, []);
 
-  const handleLike = (postId) => {
+  const handleLike = useCallback((postId) => {
     dispatchedPostList({
       type: "new_like",
       payload: { postId },
     });
-  };
+  },[]);
 
-  function addInitialPosts(posts) {
+  const addInitialPosts = useCallback((posts) => {
     dispatchedPostList({
       type: "new_Initial_Posts",
       payload: { posts },
     });
-  }
+  }, []);
 
   return (
     <PostList_provider.Provider
