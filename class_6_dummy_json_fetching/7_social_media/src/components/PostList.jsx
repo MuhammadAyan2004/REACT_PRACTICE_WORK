@@ -30,7 +30,7 @@ const PostList = ({ loading, setLoading }) => {
     return () => {
       controller.abort();
     };
-  }, []);
+  }, [addInitialPosts]);
 
   return (
     <>
