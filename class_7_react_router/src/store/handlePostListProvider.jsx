@@ -50,7 +50,6 @@ const HandlePosts = ({ children }) => {
   }, [postList]);
 
   const addPost = (post) => {
-    console.log("4");
     dispatchedPostList({
       type: "Add_post",
       payload: post,
@@ -73,29 +72,29 @@ const HandlePosts = ({ children }) => {
     });
   }, []);
 
-  const addInitialPosts = useCallback((posts) => {
-    dispatchedPostList({
-      type: "new_Initial_Posts",
-      payload: { posts },
-    });
-  }, []);
+  // const addInitialPosts = useCallback((posts) => {
+  //   dispatchedPostList({
+  //     type: "new_Initial_Posts",
+  //     payload: { posts },
+  //   });
+  // }, []);
 
-  useEffect(() => {
-    setLoading(true);
+  // useEffect(() => {
+  //   setLoading(true);
 
-    const controller = new AbortController();
-    const signal = controller.signal;
+  //   const controller = new AbortController();
+  //   const signal = controller.signal;
 
-    fetch('https://dummyjson.com/posts', { signal })
-      .then((res) => res.json())
-      .then((obj) => {
-        addInitialPosts(obj.posts);
-        setLoading(false);
-      });
-    return () => {
-      controller.abort();
-    };
-  }, [addInitialPosts]);
+  //   fetch('https://dummyjson.com/posts', { signal })
+  //     .then((res) => res.json())
+  //     .then((obj) => {
+  //       addInitialPosts(obj.posts);
+  //       setLoading(false);
+  //     });
+  //   return () => {
+  //     controller.abort();
+  //   };
+  // }, [addInitialPosts]);
 
   return (
     <PostList_provider.Provider
