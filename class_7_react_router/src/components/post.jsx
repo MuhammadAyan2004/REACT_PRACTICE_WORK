@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import { AiOutlineLike } from "react-icons/ai";
+// import { AiOutlineLike } from "react-icons/ai";
 import { RxCross1 } from "react-icons/rx";
 import { PostList_provider } from "../store/postList_context";
 
 const Post = ({ post }) => {
-  const {deletePost , handleLike } = useContext(PostList_provider)
+  const {deletePost , /*handleLike*/ } = useContext(PostList_provider)
   
   // const likedFuntion = ()=>{
   //   handleLike(post.id)
