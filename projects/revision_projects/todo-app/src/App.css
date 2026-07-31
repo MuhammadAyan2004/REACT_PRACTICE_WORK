@@ -1,0 +1,33 @@
+.card{
+    width: 400px;
+    margin: 100px auto;
+    padding: 20px;
+}
+.title{
+    text-align: center;
+    margin-bottom: 20px;
+}
+.inputArea{
+    width: 100%;
+    display: flex;
+    gap: 10px;
+}
+.input{
+    width: 80%;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    box-shadow: 3px 3px 2px gray,inset 3px 3px 2px gray;
+    padding: 10px;
+}
+.containerAlign{
+    margin-top: 20px;
+    box-shadow: 3px 3px 2px gray,
+        inset 3px 3px 2px gray ;
+    padding: 10px;
+    border-radius: 10px;
+}
+.insideAlign{
+    display: flex;
+    align-items: center;
+}
