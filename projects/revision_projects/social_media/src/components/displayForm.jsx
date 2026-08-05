@@ -14,15 +14,15 @@ function DisplayForm({setSelectedTab}) {
     let titleElem = titleInput.current.value
     let bodyElem = bodyInput.current.value 
     let tagsElem = tagsInput.current.value.split(" ")
-    if (
-      userElem === "" ||
-      titleElem === "" ||
-      bodyElem === "" ||
-      tagsElem.length <= 1
-    ) {
-      alert("please fill all the fields");
-      return;
-    }
+    // if (
+    //   userElem === "" ||
+    //   titleElem === "" ||
+    //   bodyElem === "" ||
+    //   tagsElem.length <= 1
+    // ) {
+    //   alert("please fill all the fields");
+    //   return;
+    // }
     let postId = crypto.randomUUID() 
     handleAddPost(userElem, titleElem, bodyElem, tagsElem, postId)
     setSelectedTab("Home")
