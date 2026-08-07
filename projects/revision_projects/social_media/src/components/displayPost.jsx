@@ -1,10 +1,19 @@
-import { useContext } from "react";
 import { FaRegHeart } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
-import { PostProvider } from "../store/contextProvider";
+import { useDispatch } from "react-redux";
+import { postActions } from "../store/postSlice";
 
 function DisplayPost({ post }) {
-  const { handleLike, handleDelete } = useContext(PostProvider);
+  const dispatch = useDispatch()
+
+  const handleDelete = ()=>{
+    dispatch(postActions.deletePost(post.id))
+  }
+
+  const handleLike = ()=>{
+    dispatch(postActions.likePost(post.id))
+  }
+
   return (
     <>
       <div className="w-full max-w-3xl bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
@@ -13,7 +22,7 @@ function DisplayPost({ post }) {
             <h5 className="text-2xl font-bold text-gray-800 mb-3">
               {post.userId}
             </h5>
-            <button className="text-2xl" onClick={()=>handleDelete(post.id)}>
+            <button className="text-2xl" onClick={handleDelete}>
               <RxCross2 />
             </button>
           </div>
@@ -32,11 +41,11 @@ function DisplayPost({ post }) {
           <ul className="w-full mt-2 flex items-center justify-between text-gray-500">
             <li
               className="flex items-center gap-1 cursor-pointer"
-              onClick={() => handleLike(post.id)}
+              onClick={handleLike}
             >
               <FaRegHeart /> {post.reactions.likes}
             </li>
-            <li>views . 405</li>
+            <li>views . {post.views}</li>
           </ul>
         </div>
       </div>
