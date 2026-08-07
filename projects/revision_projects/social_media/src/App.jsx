@@ -2,15 +2,40 @@ import DisplayForm from "./components/displayForm";
 import DisplayPosts from "./components/displayPosts";
 import Footer from "./components/footer";
 import Header from "./components/header";
-import { useState } from "react";
-import HandleProvider from "./store/handleProvider";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector} from "react-redux";
+import { postActions } from "./store/postSlice";
+import { fetchingAction } from "./store/fetchingSlice";
 
 function App() {
+  const dispatch = useDispatch()
+  const loadingState = useSelector((state) => state.fetching);
+
   const [selectedTab, setSelectedTab] = useState("Home");
+
+  const handleInitialPost = useCallback((posts) => {
+    dispatch(postActions.initialPost(posts));
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchingAction.startLoading())
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    fetch("https://dummyjson.com/posts", {signal})
+      .then((res) => res.json())
+      .then((obj) => {
+        handleInitialPost(obj.posts);
+        dispatch(fetchingAction.stopLoading());
+      });
+
+    return () => {
+      controller.abort();
+    };
+  }, [handleInitialPost]);
 
   return (
     <>
-      <HandleProvider>
         <Header
           selectedTab={selectedTab}
           setSelectedTab={setSelectedTab}
@@ -21,7 +46,6 @@ function App() {
           <DisplayForm setSelectedTab={setSelectedTab} />
         )}
         <Footer />
-      </HandleProvider>
     </>
   );
 }
