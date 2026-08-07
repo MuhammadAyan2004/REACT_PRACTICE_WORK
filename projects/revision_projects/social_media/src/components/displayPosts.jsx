@@ -1,13 +1,23 @@
-import { useContext } from "react";
-import { PostProvider } from "../store/contextProvider";
+import { useEffect } from "react";
 import DisplayPost from "./displayPost";
+import Loader from "./loader";
+import { useSelector } from "react-redux";
 
 function DisplayPosts() {
-  const {postList} = useContext(PostProvider)
+  const fetching = useSelector((store) => store.fetching)
+  const PostList  = useSelector((store) => store.post);
+
+  useEffect(()=>{
+    localStorage.setItem("post",JSON.stringify(PostList))
+  },[PostList])
+  
   return (
     <>
       <div className="w-full min-h-screen bg-black flex flex-col justify-center items-center gap-2 p-6 ">
-        {postList.map((post, index) => <DisplayPost key={index} post={post}/>)}
+        {fetching && <Loader />}
+        {PostList.map((post, index) => (
+          <DisplayPost key={index} post={post} />
+        ))}
       </div>
     </>
   );
