@@ -1,8 +1,11 @@
-import { useContext, useRef } from "react";
-import { PostProvider } from "../store/contextProvider";
+import { useRef } from "react";
+import { useDispatch } from "react-redux";
+import { postActions } from "../store/postSlice";
 
 function DisplayForm({setSelectedTab}) {
-  const {handleAddPost} = useContext(PostProvider)
+
+  const dispatch = useDispatch()
+
   let userIdInput = useRef()
   let titleInput = useRef();
   let bodyInput = useRef();
@@ -10,21 +13,27 @@ function DisplayForm({setSelectedTab}) {
 
   function submitPost (e) {
     e.preventDefault()
+
     let userElem = userIdInput.current.value
     let titleElem = titleInput.current.value
     let bodyElem = bodyInput.current.value 
     let tagsElem = tagsInput.current.value.split(" ")
-    // if (
-    //   userElem === "" ||
-    //   titleElem === "" ||
-    //   bodyElem === "" ||
-    //   tagsElem.length <= 1
-    // ) {
-    //   alert("please fill all the fields");
-    //   return;
-    // }
     let postId = crypto.randomUUID() 
-    handleAddPost(userElem, titleElem, bodyElem, tagsElem, postId)
+
+    if ( userElem === "" || titleElem === "" || bodyElem === "" || tagsElem.length <= 1 ) {
+      alert("please fill all the fields");
+      return;
+    }
+
+    dispatch(
+      postActions.addPost({
+          userElem,
+          titleElem,
+          bodyElem,
+          tagsElem,
+          postId,
+      }),
+    );
     setSelectedTab("Home")
 
     userIdInput.current.value = "";
