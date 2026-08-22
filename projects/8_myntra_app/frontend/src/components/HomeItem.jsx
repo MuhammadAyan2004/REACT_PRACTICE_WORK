@@ -1,22 +1,27 @@
+import { useDispatch } from "react-redux";
+import { bagAction } from "../store/bagSlice";
+
 const HomeItem = ({ item }) => {
+  const dispatch = useDispatch();
+  const handleCart = () => {
+    dispatch(bagAction.addToBag(item.id));
+  };
+
   return (
     <>
-      <div class="item-container">
-        <img class="item-image" src={item.image} alt="item image" />
-        <div class="rating">
+      <div className="item-container">
+        <img className="item-image" src={item.image} alt="item image" />
+        <div className="rating">
           {item.rating.stars} ⭐ | ${item.rating.count}
         </div>
-        <div class="company-name">{item.company}</div>
-        <div class="item-name">{item.item_name}</div>
-        <div class="price">
-          <span class="current-price">Rs {item.current_price}</span>
-          <span class="original-price">Rs {item.original_price}</span>
-          <span class="discount">({item.discount_percentage}% OFF)</span>
+        <div className="company-name">{item.company}</div>
+        <div className="item-name">{item.item_name}</div>
+        <div className="price">
+          <span className="current-price">Rs {item.current_price}</span>
+          <span className="original-price">Rs {item.original_price}</span>
+          <span className="discount">({item.discount_percentage}% OFF)</span>
         </div>
-        <button
-          class="btn-add-bag"
-          onClick={() => console.log("item was clicked")}
-        >
+        <button className="btn-add-bag" onClick={handleCart}>
           Add to Bag
         </button>
       </div>
