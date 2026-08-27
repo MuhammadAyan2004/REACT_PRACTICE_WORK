@@ -9,8 +9,10 @@ const BagSummary = () => {
   const ConvenienceFee = 99; 
 
   finalItems.forEach((Item)=>{
+
     TotalMRP += Item.original_price;
     TotalDiscount += Item.original_price - Item.current_price;
+
   })
 
   let finalAmount = TotalMRP - TotalDiscount + ConvenienceFee;
@@ -25,7 +27,9 @@ const BagSummary = () => {
 
   return (
     <div className="bag-summary">
+
       <div className="bag-details-container">
+
         <div className="price-header">
           PRICE DETAILS ({bagSummary.totalItem} Items){" "}
         </div>
@@ -46,11 +50,13 @@ const BagSummary = () => {
           <span className="price-item-tag">Convenience Fee</span>
           <span className="price-item-value">${ConvenienceFee}</span>
         </div>
+
         <hr />
         <div className="price-footer">
           <span className="price-item-tag">Total Amount</span>
           <span className="price-item-value">${bagSummary.finalPayment}</span>
         </div>
+        
       </div>
 
       <button className="btn-place-order">
