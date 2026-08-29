@@ -5,13 +5,11 @@ const bagSlice = createSlice({
     initialState: [],
     reducers: {
         addToBag: (state, action)=>{
-
             if (state.includes(action.payload)) return
             state.push(action.payload)
 
         },
         removeBag: (state, action)=>{
-
             if (state.includes(action.payload)){
                 console.log("true")
                 return state.filter(item => item !== action.payload)
