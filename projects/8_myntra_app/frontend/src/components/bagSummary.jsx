@@ -50,19 +50,15 @@ const BagSummary = () => {
           <span className="price-item-tag">Convenience Fee</span>
           <span className="price-item-value">${ConvenienceFee}</span>
         </div>
-
         <hr />
         <div className="price-footer">
           <span className="price-item-tag">Total Amount</span>
           <span className="price-item-value">${bagSummary.finalPayment}</span>
         </div>
-        
       </div>
-
       <button className="btn-place-order">
         <div className="css-xjhrni">PLACE ORDER</div>
       </button>
-      
     </div>
   );
 };
