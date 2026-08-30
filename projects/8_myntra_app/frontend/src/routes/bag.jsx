@@ -16,7 +16,9 @@ const Bag = () => {
             <BagItem item={item} key={item.id} />
           ))}
         </div>
+
         <BagSummary />
+        
       </div>
 
     </main>
