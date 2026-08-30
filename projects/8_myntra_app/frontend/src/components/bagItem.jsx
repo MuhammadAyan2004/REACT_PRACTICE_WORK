@@ -26,7 +26,6 @@ const BagItem = ({item}) => {
           </div>
 
           <div className="return-period">
-
             <span className="return-period-days">
               {item.return_period} days
             </span>{" "}
