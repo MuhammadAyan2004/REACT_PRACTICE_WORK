@@ -7,14 +7,12 @@ const bagSlice = createSlice({
         addToBag: (state, action)=>{
             if (state.includes(action.payload)) return
             state.push(action.payload)
-
         },
         removeBag: (state, action)=>{
             if (state.includes(action.payload)){
                 console.log("true")
                 return state.filter(item => item !== action.payload)
             }
-            
         },
     }
 })
